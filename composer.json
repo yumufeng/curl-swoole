@@ -1,0 +1,25 @@
+{
+  "name": "yumufeng/curl-swoole",
+  "authors": [
+    {
+      "name": "storm tan",
+      "email": "admin@yumufeng.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "classmap": [
+    ],
+    "psr-4": {
+      "yumufeng\\curl\\": "src"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.laravel-china.org"
+    }
+  }
+}
