@@ -87,7 +87,11 @@ class Curl
                 $urlsInfo = \parse_url($url);
                 $queryUrl = $urlsInfo['path'];
                 $domain = $urlsInfo['host'];
-                $port = $urlsInfo['scheme'] = 'https' ? 443 : 80;
+                if (isset($urlsInfo['port'])) {
+                    $port = $urlsInfo['port'];
+                } else {
+                    $port = ($urlsInfo['scheme'] == 'https' ? 443 : 80);
+                }
                 $chan = new \Swoole\Coroutine\Channel(1);
                 go(function () use ($chan, $domain, $queryUrl, $header, $port, $post_data) {
                     $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $port == 443 ? true : false);
