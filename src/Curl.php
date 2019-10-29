@@ -86,6 +86,9 @@ class Curl
             if (PHP_SAPI == 'cli') {
                 $urlsInfo = \parse_url($url);
                 $queryUrl = $urlsInfo['path'];
+                if (isset($urlsInfo['query'])) {
+                    $queryUrl .= '?' . $urlsInfo['query'];
+                }
                 $domain = $urlsInfo['host'];
                 if (isset($urlsInfo['port'])) {
                     $port = $urlsInfo['port'];
