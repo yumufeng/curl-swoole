@@ -28,9 +28,10 @@ class Curl
                 } else {
                     $port = ($urlsInfo['scheme'] == 'https' ? 443 : 80);
                 }
+                $isSsl = $urlsInfo['scheme'] == 'https' ? true : false;
                 $chan = new \Swoole\Coroutine\Channel(1);
-                go(function () use ($chan, $domain, $queryUrl, $header, $port) {
-                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $port == 443 ? true : false);
+                \Swoole\Coroutine::create(function () use ($chan, $domain, $queryUrl, $header, $port, $isSsl) {
+                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
                     $cli->setHeaders($header);
                     $cli->set(['timeout' => 15]);
                     $cli->get($queryUrl);
@@ -95,9 +96,10 @@ class Curl
                 } else {
                     $port = ($urlsInfo['scheme'] == 'https' ? 443 : 80);
                 }
+                $isSsl = $urlsInfo['scheme'] == 'https' ? true : false;
                 $chan = new \Swoole\Coroutine\Channel(1);
-                go(function () use ($chan, $domain, $queryUrl, $header, $port, $post_data) {
-                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $port == 443 ? true : false);
+                \Swoole\Coroutine::create(function () use ($chan, $domain, $queryUrl, $header, $port, $post_data, $isSsl) {
+                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
                     $cli->setHeaders($header);
                     $cli->set(['timeout' => 15]);
                     $cli->post($queryUrl, $post_data);
