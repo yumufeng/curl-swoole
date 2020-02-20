@@ -29,17 +29,12 @@ class Curl
                     $port = ($urlsInfo['scheme'] == 'https' ? 443 : 80);
                 }
                 $isSsl = $urlsInfo['scheme'] == 'https' ? true : false;
-                $chan = new \Swoole\Coroutine\Channel(1);
-                \Swoole\Coroutine::create(function () use ($chan, $domain, $queryUrl, $header, $port, $isSsl) {
-                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
-                    $cli->setHeaders($header);
-                    $cli->set(['timeout' => 15]);
-                    $cli->get($queryUrl);
-                    $output = $cli->body;
-                    $chan->push($output);
-                    $cli->close();
-                });
-                $output = $chan->pop();
+                $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
+                $cli->setHeaders($header);
+                $cli->set(['timeout' => 15]);
+                $cli->get($queryUrl);
+                $output = $cli->body;
+                $cli->close();
             } else {
                 $output = self::fpm_curl_get($url, $header);
             }
@@ -97,17 +92,12 @@ class Curl
                     $port = ($urlsInfo['scheme'] == 'https' ? 443 : 80);
                 }
                 $isSsl = $urlsInfo['scheme'] == 'https' ? true : false;
-                $chan = new \Swoole\Coroutine\Channel(1);
-                \Swoole\Coroutine::create(function () use ($chan, $domain, $queryUrl, $header, $port, $post_data, $isSsl) {
-                    $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
-                    $cli->setHeaders($header);
-                    $cli->set(['timeout' => 15]);
-                    $cli->post($queryUrl, $post_data);
-                    $output = $cli->body;
-                    $chan->push($output);
-                    $cli->close();
-                });
-                $output = $chan->pop();
+                $cli = new \Swoole\Coroutine\Http\Client($domain, $port, $isSsl);
+                $cli->setHeaders($header);
+                $cli->set(['timeout' => 15]);
+                $cli->post($queryUrl, $post_data);
+                $output = $cli->body;
+                $cli->close();
             } else {
                 $output = self::fpm_curl_post($url, $post_data, $header);
             }

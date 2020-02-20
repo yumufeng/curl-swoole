@@ -1,5 +1,6 @@
 {
   "name": "yumufeng/curl-swoole",
+  "license": "MIT",
   "authors": [
     {
       "name": "storm tan",
